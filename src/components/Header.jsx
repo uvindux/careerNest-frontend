@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import logo from '../assets/logo.png';
 
 const Header = () => {
   const location = useLocation();
@@ -10,16 +11,13 @@ const Header = () => {
   }
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100">
+    <header className="">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex items-center">
             <Link to="/" className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-careernest-primary rounded-full flex items-center justify-center">
-                <i className="fas fa-star text-white text-sm"></i>
-              </div>
-              <span className="text-xl font-bold text-gray-900">CareerNest</span>
+              <img src={logo} alt="logo" />
             </Link>
           </div>
 
@@ -27,25 +25,25 @@ const Header = () => {
           <nav className="hidden md:flex items-center space-x-8">
             <Link 
               to="/" 
-              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-medium"
+              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-bold"
             >
               HOME
             </Link>
             <Link 
               to="/about" 
-              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-medium"
+              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-bold"
             >
               ABOUT
             </Link>
             <Link 
               to="/service" 
-              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-medium"
+              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-bold"
             >
               SERVICE
             </Link>
             <Link 
               to="/faq" 
-              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-medium"
+              className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-bold"
             >
               FAQ
             </Link>

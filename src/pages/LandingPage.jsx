@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import button from '../components/ui/button.jsx';
 import Card from '../components/ui/card.jsx';
+import internpic from '../assets/internpic.png';
+
 
 const LandingPage = () => {
   const internshipCards = [
@@ -10,21 +12,21 @@ const LandingPage = () => {
       description: "Our platform connects ambitious internship seekers with trusted companies and experienced mentors, empowering the next generation to gain valuable experience and career guidance.",
       skills: ["HTML", "CSS", "JavaScript", "React"],
       location: "10/100 Central Road, 10",
-      image: "/api/placeholder/300/200"
+      image: internpic
     },
     {
       title: "Front End Developer (Intern)",
       description: "Our platform connects ambitious internship seekers with trusted companies and experienced mentors, empowering the next generation to gain valuable experience and career guidance.",
       skills: ["HTML", "CSS", "JavaScript", "React"],
       location: "10/100 Central Road, 10",
-      image: "/api/placeholder/300/200"
+      image: internpic
     },
     {
       title: "Front End Developer (Intern)",
       description: "Our platform connects ambitious internship seekers with trusted companies and experienced mentors, empowering the next generation to gain valuable experience and career guidance.",
       skills: ["HTML", "CSS", "JavaScript", "React"],
       location: "10/100 Central Road, 10",
-      image: "/api/placeholder/300/200"
+      image: internpic
     }
   ];
 
@@ -64,83 +66,86 @@ const LandingPage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="mesh-gradient py-20 px-4">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="mb-8">
-            <span className="bg-careernest-secondary text-white px-4 py-2 rounded-full text-sm font-medium">
-              Welcome to CareerNest
-            </span>
-          </div>
-          
-          <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 leading-tight">
-            Launch Your Career with<br />
-            Real Internships
-          </h1>
-          
-          <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-            Connect with top companies, find the perfect internship, and 
-            get personalized guidance from industry mentors — all in one place.
-          </p>
-          
-          <button size="lg" className="text-lg px-8 py-4">
-            GET STARTED
-          </button>
-        </div>
-      </section>
 
-      {/* Find Your Internship Section */}
-      <section className="py-16 px-4 bg-white">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Find Your Internship with Us
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+      <section className='mesh-gradient'>
+        <section className="py-20 px-4">
+          <div className="md:max-w-6xl mx-auto text-center">
+            <div className="mb-8">
+              <span className=" text-white bg-gradient-to-r from-[#ce08fa9e] to-[#c364fedd] px-4 py-2 rounded-full text-sm font-medium">
+                Find Your Internship
+              </span>
+            </div>
+            
+            <h1 className="text-5xl md:text-6xl font-bold text-[#37005D] mb-6 leading-tight">
+              Launch Your Career with<br />
+              Real Internships
+            </h1>
+            
+            <p className="text-xl text-[#37005D] mb-8 max-w-2xl mx-auto">
               Connect with top companies, find the perfect internship, and 
               get personalized guidance from industry mentors — all in one place.
             </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {internshipCards.map((card, index) => (
-              <Card.Card key={index} hover className="overflow-hidden">
-                <div className="h-48 bg-gray-200 mb-4 rounded-md overflow-hidden">
-                  <img 
-                    src={card.image} 
-                    alt={card.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <Card.CardTitle className="mb-3">{card.title}</Card.CardTitle>
-                <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                  {card.description}
-                </p>
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {card.skills.map((skill, skillIndex) => (
-                    <span 
-                      key={skillIndex}
-                      className="bg-careernest-primary text-white px-3 py-1 rounded-full text-xs font-medium"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-                <div className="flex items-center justify-between text-sm text-gray-500">
-                  <span><i className="fas fa-map-marker-alt mr-1"></i>{card.location}</span>
-                  <span className="text-careernest-primary font-medium cursor-pointer hover:underline">
-                    Apply Now
-                  </span>
-                </div>
-              </Card.Card>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <button variant="secondary">
-              FIND YOUR INTERNSHIP
+            
+            <button className="bg-gradient-to-r from-purple-500 to-purple-400 text-white font-semibold px-8 py-3 rounded-lg hover:from-purple-600 hover:to-purple-500 transition-all duration-200">
+              GET STARTED →
             </button>
           </div>
-        </div>
+        </section>
+
+        {/* Find Your Internship Section */}
+        <section className="py-16 px-4 ">
+          <div className="max-w-6xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-[#37005D] mb-4">
+                Find Your Internship with Us
+              </h2>
+              <p className="text-lg text-[#37005D]max-w-2xl mx-auto">
+                Connect with top companies, find the perfect internship, and 
+                get personalized guidance from industry mentors — all in one place.
+              </p>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-8 mb-12 ">
+              {internshipCards.map((card, index) => (
+                <Card.Card key={index} hover className="overflow-hidden p-3 bg-[1#fbf7fe]">
+                  <div className="h-48 bg-gray-200 mb-4 rounded-md overflow-hidden">
+                    <img 
+                      src={card.image} 
+                      alt={card.title}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <Card.CardTitle className=" text-2xl text-[#37005D]">{card.title}</Card.CardTitle>
+                  <p className="text-[#37005D] text-sm mb-4 line-clamp-3 font-medium">
+                    {card.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {card.skills.map((skill, skillIndex) => (
+                      <span 
+                        key={skillIndex}
+                        className="bg-[#37005D] text-white px-3 py-1 rounded-full text-xs font-medium"
+                      >
+                        {skill}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between text-sm text-gray-500">
+                    <span><i className="fas fa-map-marker-alt mr-1"></i>{card.location}</span>
+                    <span className="text-careernest-primary font-medium cursor-pointer hover:underline">
+                      Apply Now
+                    </span>
+                  </div>
+                </Card.Card>
+              ))}
+            </div>
+
+            <div className="text-center">
+              <button class="bg-gradient-to-r from-purple-500 to-purple-400 text-white font-semibold px-8 py-3 rounded-lg hover:from-purple-600 hover:to-purple-500 transition-all duration-200">
+                FIND YOUR INTERNSHIP
+              </button>
+            </div>
+          </div>
+        </section>
       </section>
 
       {/* Building Bridges Section */}

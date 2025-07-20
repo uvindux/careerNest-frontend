@@ -130,21 +130,12 @@
 
 /* Mesh gradient background */
 .mesh-gradient {
-  background: linear-gradient(135deg, 
-    var(--careernest-primary) 0%, 
-    var(--careernest-secondary) 25%, 
-    var(--careernest-accent) 50%, 
-    var(--careernest-light) 75%, 
-    #ffffff 100%);
-  background-size: 400% 400%;
-  animation: gradientShift 15s ease infinite;
+  background-image: url("./assets/bghero.png");
+  background-size: cover;
+  background-position:top;
 }
 
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
+
 
 /* Custom utility classes */
 .text-careernest-primary { color: #7A08FA; }
