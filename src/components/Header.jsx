@@ -41,12 +41,12 @@ const Header = () => {
             >
               SERVICE
             </Link>
-            <Link 
+            {/* <Link 
               to="/faq" 
               className="text-gray-700 hover:text-careernest-primary transition-colors duration-200 font-bold"
             >
               FAQ
-            </Link>
+            </Link> */}
           </nav>
 
           {/* Auth Buttons */}

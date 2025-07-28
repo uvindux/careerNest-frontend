@@ -6,6 +6,8 @@ import DashboardLayout from './components/DashboardLayout';
 // Import pages (we'll create these next)
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
+import AboutPage from './pages/AboutPage';
+import ServicePage from './pages/ServicePage';
 import RegisterPage from './pages/RegisterPage';
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/ProfilePage';
@@ -21,9 +23,9 @@ function App() {
         {/* Public routes with main layout */}
         <Route path="/" element={<Layout />}>
           <Route index element={<LandingPage />} />
-          <Route path="about" element={<div>About Page</div>} />
-          <Route path="service" element={<div>Service Page</div>} />
-          <Route path="faq" element={<div>FAQ Page</div>} />
+          <Route path="about" element={<AboutPage/>} />
+          <Route path="service" element={<ServicePage/>} />
+          {/* <Route path="faq" element={<div>FAQ Page</div>} /> */}
         </Route>
         
         {/* Auth routes without layout */}
