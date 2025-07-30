@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { setAuthCookies, isAuthenticated } from '../utils/auth';
 
 // Button Component
 const Button = ({ children, variant = 'primary', size = 'md', className = '', type = 'button', ...props }) => {
@@ -96,29 +97,74 @@ const Input = ({
 
 // Main Login Page Component
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to dashboard if already authenticated
+    if (isAuthenticated()) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
   const [formData, setFormData] = useState({
     email: '',
-    password: ''
+    password: '',
+    role: 'student' // default role
   });
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear error when user starts typing
+    if (error) setError('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log('Login attempt:', formData);
-    alert('Login attempt logged to console');
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const response = await fetch('http://carrernest-nodejs-alb-1673428613.ap-south-1.elb.amazonaws.com/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          role: formData.role,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store auth data in cookies
+      const token = data.token;
+      const role = data.user?.role || formData.role;
+      setAuthCookies(token, role);
+
+      // Navigate to dashboard
+      navigate('/dashboard');
+      
+    } catch (err) {
+      setError(err.message || 'Login failed. Please check your credentials and try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
     // Handle Google login logic here
     console.log('Google login attempt');
-    alert('Google login clicked');
+    alert('Google login feature coming soon');
   };
 
   return (
@@ -174,6 +220,56 @@ const LoginPage = () => {
                 />
               </div>
 
+              <div className="space-y-4 mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select your role <span className="text-red-500">*</span>
+                </label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      id="role-student"
+                      name="role"
+                      type="radio"
+                      value="student"
+                      checked={formData.role === 'student'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-student" className="ml-2 block text-sm text-gray-900">
+                      Student
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="role-provider"
+                      name="role"
+                      type="radio"
+                      value="provider"
+                      checked={formData.role === 'provider'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-provider" className="ml-2 block text-sm text-gray-900">
+                      Provider
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="role-mentor"
+                      name="role"
+                      type="radio"
+                      value="mentor"
+                      checked={formData.role === 'mentor'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-mentor" className="ml-2 block text-sm text-gray-900">
+                      Mentor
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex items-center justify-between">
                 <div className="flex items-center">
                   <input
@@ -194,6 +290,12 @@ const LoginPage = () => {
                 </div>
               </div>
 
+              {error && (
+                <div className="text-red-600 text-sm py-2 text-center">
+                  {error}
+                </div>
+              )}
+
               <div className="pt-4">
                 <Button
                   type="submit"
@@ -201,8 +303,16 @@ const LoginPage = () => {
                   className="w-full"
                   size="lg"
                   onClick={handleSubmit}
+                  disabled={isLoading}
                 >
-                  Login
+                  {isLoading ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin mr-2"></i>
+                      Logging in...
+                    </>
+                  ) : (
+                    'Login'
+                  )}
                 </Button>
               </div>
 
@@ -228,12 +338,12 @@ const LoginPage = () => {
 
               <div className="text-center pt-4">
                 <span className="text-gray-600">Don't have an account? </span>
-                <a 
-                  href="#register" 
+                <Link 
+                  to="/register" 
                   className="text-purple-600 font-medium hover:text-purple-500 transition-colors"
                 >
                   Register <i className="fas fa-arrow-right ml-1"></i>
-                </a>
+                </Link>
               </div>
             </div>
           </div>

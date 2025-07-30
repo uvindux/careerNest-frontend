@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../assets/logo.png';
+import { setAuthCookies, isAuthenticated } from '../utils/auth';
 
 // Button Component
 const Button = ({ children, variant = 'primary', size = 'md', className = '', type = 'button', ...props }) => {
@@ -96,11 +97,21 @@ const Input = ({
 
 // Main Register Page Component
 const RegisterPage = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to dashboard if already authenticated
+    if (isAuthenticated()) {
+      navigate('/dashboard');
+    }
+  }, [navigate]);
+
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'student' // default role
   });
 
   const [errors, setErrors] = useState({});
@@ -150,7 +161,9 @@ const RegisterPage = () => {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     const newErrors = validateForm();
@@ -159,18 +172,44 @@ const RegisterPage = () => {
       return;
     }
 
-    // Handle registration logic here
-    console.log('Registration attempt:', formData);
-    alert('Registration successful! Check console for details.');
-    
-    // Reset form
-    setFormData({
-      username: '',
-      email: '',
-      password: '',
-      confirmPassword: ''
-    });
-    setErrors({});
+    setIsLoading(true);
+
+    try {
+      const response = await fetch('http://carrernest-nodejs-alb-1673428613.ap-south-1.elb.amazonaws.com/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          password: formData.password,
+          role: formData.role
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Registration failed');
+      }
+
+      // Store auth data in cookies
+      const token = data.token;
+      const role = data.user?.role || formData.role;
+      setAuthCookies(token, role);
+
+      // Redirect to dashboard
+      navigate('/dashboard');
+      
+    } catch (error) {
+      setErrors({
+        ...errors,
+        submit: error.message || 'Registration failed. Please try again.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleGoogleRegister = () => {
@@ -277,6 +316,56 @@ const RegisterPage = () => {
                 )}
               </div>
 
+              <div className="space-y-4 mb-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Select your role
+                </label>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <input
+                      id="role-student"
+                      name="role"
+                      type="radio"
+                      value="student"
+                      checked={formData.role === 'student'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-student" className="ml-2 block text-sm text-gray-900">
+                      Student
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="role-provider"
+                      name="role"
+                      type="radio"
+                      value="provider"
+                      checked={formData.role === 'provider'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-provider" className="ml-2 block text-sm text-gray-900">
+                      Provider
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="role-mentor"
+                      name="role"
+                      type="radio"
+                      value="mentor"
+                      checked={formData.role === 'mentor'}
+                      onChange={handleChange}
+                      className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300"
+                    />
+                    <label htmlFor="role-mentor" className="ml-2 block text-sm text-gray-900">
+                      Mentor
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div className="flex items-center">
                 <input
                   id="terms"
@@ -298,14 +387,25 @@ const RegisterPage = () => {
               </div>
 
               <div className="pt-4">
+                {errors.submit && (
+                  <p className="text-sm text-red-600 mb-4">{errors.submit}</p>
+                )}
                 <Button
                   type="submit"
                   variant="primary"
                   className="w-full"
                   size="lg"
                   onClick={handleSubmit}
+                  disabled={isLoading}
                 >
-                  Create Account
+                  {isLoading ? (
+                    <>
+                      <i className="fas fa-spinner fa-spin mr-2"></i>
+                      Creating Account...
+                    </>
+                  ) : (
+                    'Create Account'
+                  )}
                 </Button>
               </div>
 

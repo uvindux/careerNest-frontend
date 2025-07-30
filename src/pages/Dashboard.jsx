@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { isAuthenticated, getUserRole } from '../utils/auth';
 
 const Dashboard = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Redirect to login if not authenticated
+    if (!isAuthenticated()) {
+      navigate('/login');
+    }
+  }, [navigate]);
   const scheduledSessions = [
     { id: 1, placeholder: true },
     { id: 2, placeholder: true },
