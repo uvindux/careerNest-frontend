@@ -8,7 +8,7 @@ const DashboardLayout = ({ children }) => {
     { path: '/dashboard', icon: 'fas fa-tachometer-alt', label: 'Dashboard' },
     { path: '/dashboard/cv-generator', icon: 'fas fa-file-alt', label: 'CV generator' },
     { path: '/dashboard/profile', icon: 'fas fa-user', label: 'profile' },
-    { path: '/dashboard/roadmap', icon: 'fas fa-route', label: 'Roadmap' },
+    // { path: '/dashboard/roadmap', icon: 'fas fa-route', label: 'Roadmap' },
     { path: '/dashboard/mentoring', icon: 'fas fa-users', label: 'Mentoring' },
     { path: '/dashboard/job-posting', icon: 'fas fa-plus', label: 'Job Posting' },
   ];

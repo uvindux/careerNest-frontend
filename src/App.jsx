@@ -9,12 +9,15 @@ import LoginPage from './pages/LoginPage';
 import AboutPage from './pages/AboutPage';
 import ServicePage from './pages/ServicePage';
 import RegisterPage from './pages/RegisterPage';
+
 import Dashboard from './pages/Dashboard';
 import ProfilePage from './pages/ProfilePage';
 import MentoringPage from './pages/MentoringPage';
 import JobPostingPage from './pages/JobPostingPage';
+import CVGenerator from './pages/cvgenerator';
 
 import './App.css';
+import Chatbot from './components/Chatbot/Chatbot';
 
 function App() {
   return (
@@ -25,6 +28,7 @@ function App() {
           <Route index element={<LandingPage />} />
           <Route path="about" element={<AboutPage/>} />
           <Route path="service" element={<ServicePage/>} />
+          <Route path="/chatbot" element={<Chatbot/>} />
           {/* <Route path="faq" element={<div>FAQ Page</div>} /> */}
         </Route>
         
@@ -36,7 +40,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="profile" element={<ProfilePage />} />
-          <Route path="cv-generator" element={<div>CV Generator</div>} />
+          <Route path="cv-generator" element={<CVGenerator />} />
           <Route path="roadmap" element={<div>Roadmap</div>} />
           <Route path="mentoring" element={<MentoringPage />} />
           <Route path="job-posting" element={<JobPostingPage />} />

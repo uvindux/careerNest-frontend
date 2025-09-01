@@ -48,6 +48,7 @@ const Header = () => {
               FAQ
             </Link> */}
           </nav>
+         
 
           {/* Auth Buttons */}
           <div className="flex items-center space-x-4">
@@ -63,6 +64,10 @@ const Header = () => {
             >
               Get Started
             </Link>
+             {/*Chatbot */}
+          <Link to="/chatbot"  className="btn-primary">
+            Ask From Mentory
+          </Link>
           </div>
 
           {/* Mobile menu button */}
